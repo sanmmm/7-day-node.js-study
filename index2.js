@@ -14,7 +14,7 @@ function combineFiles (pathnames, writer) {
             reader.pipe(writer, {end: false});
             reader.on('error', err => { // 错误处理
                 reject(err);
-            })
+            });
             reader.on('end', _ => { // 结束后处理
                 resolve();
             });
@@ -63,12 +63,12 @@ function validate (pathnames) {
 }
 
 function main (argv) {
-    let config = argv[0] ? JSON.parse(fs.readFileSync(argv[0], 'utf-8')) : {};
-    console.log(config.port);
-    let root = config.root || '.';
-    let port = config.port || 9000;
- 
-    http.createServer(function (req, res) {
+    console.log('start http server');
+    let config = argv[0] ? JSON.parse(fs.readFileSync(argv[0], 'utf-8')) : {},
+        root = config.root || '.',
+        port = config.port || 9000,
+        server;
+    server = http.createServer(function (req, res) {
         urlInfo = parserUrl(root, req.url);
         console.log(...urlInfo.pathnames);
         validate(urlInfo.pathnames).then(_ => {
@@ -88,6 +88,12 @@ function main (argv) {
             res.end(err.message);
         });
     }).listen(port);
+    process.on('SIGTERM', _ => {
+        console.log('stop http server');
+        server.close(_ => {
+            process.exit(0);
+        });
+    });
     console.log(`http server start and linsten on ${port}`);
 }
 
