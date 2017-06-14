@@ -60,7 +60,7 @@ function main (argv) {
 
 function parserUrl(root, url) {
     if (url.indexOf('??') === -1) {
-        url = url.replace('/', '??');
+        url = url.replace('/', '/??');
     }
     let parts = url.split('??');
     let basePath = parts[0];

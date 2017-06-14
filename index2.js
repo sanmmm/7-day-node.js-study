@@ -6,6 +6,7 @@ let MIME = {
     '.js': 'application/js',
     '.css': 'text/css'
 }
+
 function combineFiles (pathnames, writer) {
     let promise = null;
     function getFile (pathname, writer) { // 创建包裹文件读写到response对象操作的promise
