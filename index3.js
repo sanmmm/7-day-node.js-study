@@ -58,21 +58,19 @@ function main (argv) {
     server = http.createServer(function (req, res) {
         urlInfo = parserUrl(root, req.url);
         console.log(...urlInfo.pathnames);
-        validate(urlInfo.pathnames).then(_ => {
-            res.writeHead(200, {
-                'Content-Type': urlInfo.MIME
-            });
-            combineFiles(urlInfo.pathnames, res).then( _ => {
+        co(function* () {
+            try {
+                yield validate(urlInfo.pathnames);
+                res.writeHead(200, {
+                    'Content-Type': urlInfo.MIME
+                });
+                yield combineFiles(urlInfo.pathnames, res);
                 res.end();
-            }).catch(err => {
-                console.log('error');
+            } catch (err) {
+                console.log('outer err', err);
                 res.writeHead(404);
                 res.end(err.message);
-            });
-        }).catch(err => {
-            console.log('err', err);
-            res.writeHead(404);
-            res.end(err.message);
+            }
         });
     }).listen(port);
     process.on('SIGTERM', _ => {
