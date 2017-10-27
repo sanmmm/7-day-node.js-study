@@ -120,7 +120,7 @@ function combineFiles (pathnames) {
     return promise;
 }
 ```
-完整代码在：[promise改进版本]("./index2.js" )
+完整代码在：[promise改进版本](./index2.js)
 
 promise在一定程度上解决了回调地狱的问题，但是同样存在局限性，诸如无法取消 Promise，一旦新建它就会立即执行，无法中途取消。其次，如果不设置回调函数，Promise 内部抛出的错误，不会反应到外部。第三，当处于 Pending 状态时，无法得知目前进展到哪一个阶段等。
 
@@ -148,7 +148,7 @@ function combineFiles (pathnames, writer) {
     });
 }
 ```
-我们可以看见，借助es6的generator特性和co库，我们的代码在形式上和逻辑上都更加容易理解，同时对异步代码在执行过程中的错误也可以进行控制。完整代码见: [generator实现]("./index3.js")
+我们可以看见，借助es6的generator特性和co库，我们的代码在形式上和逻辑上都更加容易理解，同时对异步代码在执行过程中的错误也可以进行控制。完整代码见: [generator实现](./index3.js)
 
 es7在吸收了社区的思想后提出了async函数特性，从而从语言层次革新了js对异步执行的控制。我们可以更加轻松得控制异步逻辑，维护异步代码。同样，上述文件合并代码可以改进为：
 ``` javascript
@@ -173,6 +173,6 @@ function combineFiles (pathnames, writer) {
     return files();
 }
 ```
-完整部分在：[async实现]("./index4.js")
+完整部分在：[async实现](./index4.js)
 
 综上，我们可以借助一个小的实例，看到js在异步处理方面做出的尝试和改进。
